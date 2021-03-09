@@ -17,10 +17,12 @@ app.use(morgan('combined'))
 app.use(express.static(__dirname + '/public'))
 
 app.get('/healthz', (req,resp) => {
+	const now = new Date()
 	resp.status(200).type('application/json')
 		.json({
 			status: 'OK',
-			duration: Math.floor(((new Date()).getTime() / 1000) - since),
+			duration: Math.floor(now.getTime() / 1000) - since,
+			currentTime: now.toLocaleString(),
 			since,
 		})
 })
