@@ -1,0 +1,13 @@
+.fortune {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.fortune>span {
+	font-size: 4em;
+	padding-left: 10vw;
+	padding-right: 10vw;
+}
