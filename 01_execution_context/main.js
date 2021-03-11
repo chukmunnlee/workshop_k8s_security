@@ -1,9 +1,14 @@
 const FORTUNE_COOKIES = require('fortune-cookie')
 const morgan = require('morgan')
+const fetch = require('node-fetch')
+const withQuery = require('with-query').default
 const express = require('express')
 const hbs = require('express-handlebars')
 
+const NOT_SET = 'not-set'
 const PORT = parseInt(process.env.PORT) || 3000
+const COUNTRY = process.env.COUNTRY || 'singapore'
+const OPEN_WEATHER_MAP = process.env.OPEN_WEATHER_MAP || NOT_SET
 
 const app = express()
 
@@ -29,8 +34,30 @@ app.get('/healthz', (req,resp) => {
 
 app.use((req, resp) => {
 	const text = rndCookie(FORTUNE_COOKIES)
-	resp.status(200).type('text/html')
-		.render('index', { text })
+
+	if (OPEN_WEATHER_MAP == NOT_SET)
+		return resp.status(200).type('text/html')
+			.render('index', { text, showWeather: false })
+
+	fetch(
+		withQuery('http://api.openweathermap.org/data/2.5/weather', {
+			q: COUNTRY,
+			appid: OPEN_WEATHER_MAP
+		})
+	)
+	.then(result => result.json())
+	.then(result => {
+		// take the first result only
+		const w = result.weather[0]
+		return resp.status(200).type('text/html')
+			.render('index', { 
+				text, 
+				showWeather: true,
+				description: `${w.main} - ${w.description}`,
+				icon: w.icon,
+				country: COUNTRY.toUpperCase()
+			})
+	})
 })
 
 app.listen(PORT, () => {

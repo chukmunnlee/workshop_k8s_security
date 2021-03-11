@@ -2,12 +2,20 @@
 	width: 100vw;
 	height: 100vh;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 }
 
-.fortune>span {
+.fortune-text {
 	font-size: 4em;
 	padding-left: 10vw;
 	padding-right: 10vw;
+}
+
+.weather {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	font-size: 1.3em;
 }

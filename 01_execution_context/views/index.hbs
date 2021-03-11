@@ -1,3 +1,10 @@
 <div class="fortune">
-	<span> {{ text }} </span>
+	<div class="fortune-text"> {{ text }} </div>
+	{{#if showWeather }}
+		<div class="weather">
+			<img src="http://openweathermap.org/img/wn/{{ icon }}.png" alt="">
+			{{ description }}
+			({{ country }})
+		</div>
+	{{/if}}
 </div>
