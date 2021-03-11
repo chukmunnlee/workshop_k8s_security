@@ -62,6 +62,7 @@ app.use((req, resp) => {
 
 app.listen(PORT, () => {
 	console.info(`Application started on port ${PORT} at ${new Date()}`)
+	console.info(`\topenweathermap api key: ${OPEN_WEATHER_MAP != NOT_SET}`)
 })
 
 // random cookie
