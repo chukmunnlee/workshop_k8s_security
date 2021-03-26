@@ -10,6 +10,7 @@
 - Install ingress-nginx with `ingress.yaml`. Will be installed in `ingress-nginx` namespace
 - Check pods, deployment and service are installed. Note the external IP address in `ingress-nginx` namespace
 - Use the allocated exteral IP address of the ingress controller and browse it. You should see a '404 Not Found' page
+- Install sealed secrets `sealedsecrets.yaml`
 
 ## Install krew and plugins - Optional
 - See [https://krew.sigs.k8s.io/docs/user-guide/setup/install/](https://krew.sigs.k8s.io/docs/user-guide/setup/install/)

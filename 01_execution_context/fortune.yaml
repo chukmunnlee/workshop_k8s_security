@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: fortune-deploy
+   namespace: workshp
+   labels:
+      name: fortune-deploy
+spec:
+   replicas: 1
+   selector:
+      matchLabels:
+         name: fortune-pod
+   template:
+      metadata:
+         name: fortune-pod
+         labels:
+            name: fortune-pod
+      spec:
+         containers:
+         - name: fortune-container
+           image: chukmunnlee/fortune:v2
+           imagePullPolicy: IfNotPresent
+           securityContext:
+              capabilities:
+                 drop:
+                 - ALL
+                 add:
+                 - NET_RAW
+           env:
+           - name: PORT
+             value: "5000"
+           ports:
+           - containerPort: 5000
+

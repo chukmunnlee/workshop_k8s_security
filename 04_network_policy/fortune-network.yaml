@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+   name: fortune-svc
+   namespace: workshp
+   labels:
+      name: fortune-svc
+spec:
+   type: ClusterIP
+   selector:
+      name: fortune-pod
+   ports:
+   - port: 5000
+     targetPort: 5000
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+   name: fortune-ing
+   namespace: workshp
+   labels:
+      name: fortune-ing
+spec:
+   ingressClassName: nginx
+   rules:
+   - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+           service:
+              name: fortune-svc
+              port:
+                 number: 5000
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+   name: fortune-netpol
+   namespace: workshp
+   labels:
+      name: fortune-netpol
+spec:
+   podSelector:
+      matchLabels:
+         name: fortune-pod
+   policyTypes:
+   - Ingress
+   ingress:
+   - from:
+     - namespaceSelector:
+         matchLabels:
+            app.kubernetes.io/name: ingress-nginx
+       podSelector:
+         matchLabels:
+            app.kubernetes.io/name: ingress-nginx
+            app.kubernetes.io/component: controller
+     ports:
+     - port: 5000
+
